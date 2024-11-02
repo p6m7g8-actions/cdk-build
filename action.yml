@@ -1,6 +1,6 @@
-name: "P6 Actions: CDK Build"
-description: "Reusable action for CDK build with pnpm setup and AWS OIDC role assumption"
-author: "p6m7g8"
+name: "P6 GHA: Builds a CDK App"
+description: "P6 GHA: Builds a CDK App"
+author: "Philip M. Gollucci"
 inputs:
   aws_region:
     description: "AWS region for deployment"
