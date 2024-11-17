@@ -42,7 +42,6 @@ runs:
       run: |
         pwd
         ls -alF
-        exit 1
     - name: Install Node.js
       shell: bash
       run: |
