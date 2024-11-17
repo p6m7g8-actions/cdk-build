@@ -25,14 +25,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Checkout code
+    - name: Checkout code Repository
       uses: actions/checkout@v4.2.2
-    - name: Checkout code
+    - name: Checkout code p6common
       uses: actions/checkout@v4.2.2
       with:
         repository: "p6m7g8-dotfiles/p6common"
         path: ".deps/p6common"
-    - name: Checkout code
+    - name: Checkout code p6aws
       uses: actions/checkout@v4.2.2
       with:
         repository: "p6m7g8-dotfiles/p6aws"
