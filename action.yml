@@ -18,6 +18,10 @@ inputs:
   cdk_deploy_region:
     description: "AWS CDK deploy region"
     required: true
+  p6_custom_build_cmd:
+    description: "Custom build command to run"
+    required: false
+    default: "pnpm run diff"
 runs:
   using: "composite"
   steps:
@@ -76,4 +80,4 @@ runs:
         CDK_DEPLOY_ACCOUNT: ${{ inputs.cdk_deploy_account }}
         CDK_DEPLOY_REGION: ${{ inputs.cdk_deploy_region }}
         AWS_REGION: ${{ inputs.aws_region }}
-      run: pnpm run diff
+      run: ${{ inputs.p6_custom_build_cmd }}
