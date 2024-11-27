@@ -48,7 +48,7 @@ runs:
         repository: "p6m7g8/p6-cirrus"
         path: ".deps/p6-cirrus"
     - name: Node
-      uses: p6m7g8-actions/setup-node@main
+      uses: p6m7g8-actions/node-setup@main
     - name: Assume role using OIDC
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
