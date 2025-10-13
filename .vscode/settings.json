@@ -32,7 +32,9 @@
   },
   "cSpell.words": [
     "amannn",
-    "corepack"
+    "cdktf",
+    "corepack",
+    "Postconditions"
   ],
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"

@@ -1,17 +1,17 @@
 # Copilot Coding Agent Onboarding
 
 
-This repository is a **composite GitHub Action** that builds and deploys a CDKTF app. It also includes house-keeping workflows for labeling, PR title linting, auto-approve, and enqueueing PRs into GitHub’s Merge Queue after CI completes.
+This repository is a **composite GitHub Action** that builds and deploys a CDK app. It also includes house-keeping workflows for labeling, PR title linting, auto-approve, and enqueueing PRs into GitHub’s Merge Queue after CI completes.
 
 ---
 
 ## High-level overview
 
 - **Type:** GitHub Actions composite action repository.
-- **Primary artifact:** `action.yml` (the Action that callers use via `uses: p6m7g8-actions/cdktf-deploy@<ref>`).
+- **Primary artifact:** `action.yml` (the Action that callers use via `uses: p6m7g8-actions/cdk-build@<ref>`).
 - **Languages & runtimes:** YAML + Bash on Ubuntu runners; Node.js (via a reusable setup action); AWS credentials through GitHub OIDC; OpenTofu CLI.
 - **Key behaviors of the composite action:**
-  - Checks out code, sets up Node, installs `cdktf-cli`, configures AWS creds via OIDC, installs OpenTofu, then runs `pnpm run deploy` with CDKTF/AWS env vars. **Important:** `pnpm run deploy` **must be defined by the _calling_ repo**; this repo does not contain an app to deploy.
+  - Checks out code, sets up Node, installs AWS CDK CLI, configures AWS creds via OIDC, then runs `pnpm run deploy` (or your CDK CLI command) with AWS env vars. **Important:** `pnpm run deploy` **must be defined by the _calling_ repo**; this repo does not contain an app to deploy.
 
 ### Layout map (edit here first)
 - `action.yml` — the composite action steps and inputs (keep inputs stable unless coordinated with consumers).
@@ -40,19 +40,19 @@ This repository is a **composite GitHub Action** that builds and deploys a CDKTF
 
 ### Local and remote validation
 - **This repo has no unit tests** and no application code to execute. Validation is via the GitHub workflows above.
-- To test the composite action logic, use a **separate sandbox repo** that references this action with `uses: ./` (for local) or `uses: p6m7g8-actions/cdktf-deploy@<branch>` and provides:
+- To test the composite action logic, use a **separate sandbox repo** that references this action with `uses: ./` (for local) or `uses: p6m7g8-actions/cdk-build@<branch>` and provides:
   - a `package.json` with `"deploy"` script runnable by `pnpm run deploy`,
   - AWS OIDC-assumable role and required inputs: `aws_role`, `aws_session_name`, `cdk_deploy_account`, `cdk_deploy_region`.
-- **Do not run `pnpm run deploy` in this repository**; it will fail because no CDKTF app or script is present here.
+
 
 ### Versions and tooling (as pinned)
-- `cdktf-cli`: latest (installed at runtime).
+- AWS CDK CLI: latest (installed at runtime).
 - `aws-actions/configure-aws-credentials`: v5.1.0.
 - OpenTofu: `1.10.6`.
 - Node setup comes from a reusable action; follow its defaults unless coordination is required.
 
-**Preconditions:** AWS role and permissions must exist in the calling environment.  
-**Postconditions:** On consumer repos, a successful run implies the CDKTF deploy script completed without error.
+**Preconditions:** AWS role and permissions must exist in the calling environment.
+**Postconditions:** On consumer repos, a successful run implies the CDK deploy script completed without error.
 
 ---
 
@@ -62,10 +62,9 @@ This repository is a **composite GitHub Action** that builds and deploys a CDKTF
 Steps, in order:
 1. Checkout.
 2. Node setup.
-3. Install `cdktf-cli` and print version.
+3. Install AWS CDK CLI and print version.
 4. Configure AWS creds via OIDC.
-5. Install OpenTofu.
-6. Run `pnpm run deploy` with required env (`CDKTF_LOG_LEVEL`, `CDK_DEPLOY_ACCOUNT`, `CDK_DEPLOY_REGION`, `AWS_REGION`, `TERRAFORM_BINARY_NAME=tofu`).
+5. Run `pnpm run deploy` (or your CDK CLI command) with required env (`AWS_REGION`, `CDK_ACCOUNT`, `CDK_REGION`).
 
 **Do not** change input names without a coordinated version bump and consumer migration guidance.
 
