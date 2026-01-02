@@ -15,4 +15,3 @@
           cdk_deploy_account: ${{ secrets.CDK_DEPLOY_ACCOUNT }}
           cdk_deploy_region: ${{ secrets.CDK_DEPLOY_REGION }}
 ```
-
